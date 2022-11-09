@@ -1,0 +1,32 @@
+header(class="flex flex-col items-center justify-between w-full bg-sky-600 text-white children:text-2xl md:flex-row")
+
+  div(class="flex items-center justify-between p-4 w-full md:w-auto")
+    include ./logo.pug
+    button(id="nav-menu-btn" class="md:hidden") 
+      <i class="las la-bars"></i>
+
+  nav(id="nav-menu" data-status="close" class="flex flex-col items-center gap-2 p-0 h-0 overflow-hidden w-full transition-dimension bg-white text-gray-400 md:flex-row md:justify-end md:p-4 md:h-auto md:bg-transparent md:text-white" )
+    button(id="searcher-btn" type="button" class="flex items-center justify-center rounded-full outline-none h-8 w-8 bg-sky-800 text-white")
+      i(class="las la-search !text-base")
+
+    if user
+      a(href="/" class="!text-sm font-semibold px-6 py-2") Propiedades 
+      a(href="/my-properties" class="!text-sm font-semibold px-6 py-2") Mis propiedades
+      form(action="/auth/logout" method="POST")  
+        input(type="hidden" name="_csrf" value=csrfToken)
+        input(type="submit" value="Cerrar sesión" class="!text-sm font-semibold px-6 py-2 rounded-lg bg-sky-800 text-white")
+    else
+      a(href="" class="!text-sm font-semibold px-6 py-2") Propiedades 
+      a(href="/auth/login" class="!text-sm font-semibold px-6 py-2") Iniciar sesión 
+      a(href="/auth/register" class="!text-sm font-semibold px-6 py-2 rounded-lg bg-sky-800 text-white") Crear cuenta 
+
+div(class="hidden py-4 bg-sky-700 lg:block")
+  div(class="flex items-center justify-between container mx-auto")
+    a(href="/categories/1" class="text-sm font-bold uppercase text-white") Casa
+    a(href="/categories/2" class="text-sm font-bold uppercase text-white") Departamento
+    a(href="/categories/3" class="text-sm font-bold uppercase text-white") Bodega
+    a(href="/categories/4" class="text-sm font-bold uppercase text-white") Cabaña
+    a(href="/categories/5" class="text-sm font-bold uppercase text-white") Terreno
+
+include ../includes/searcher
+

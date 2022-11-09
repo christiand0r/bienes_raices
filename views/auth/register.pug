@@ -1,0 +1,47 @@
+extends ../../layouts/authentication
+
+block content
+  div(class="flex flex-col items-center justify-center min-h-screen")
+    include ../../includes/logo.pug
+
+    h2(class="text-center text-xl font-medium my-6")= page
+
+    div(class="max-w-lg w-full rounded-lg p-8 shadow bg-white")
+      form(class="flex flex-col gap-4" method="POST" action="/auth/register")
+        input(type="hidden" name="_csrf" value= csrfToken)
+
+        div
+          label(for="name" class="block text-sm font-bold uppercase mb-2 text-gray-500") Nombre
+          input(type="text" id="name" name="name" value= user ? user.name : "" autocomplete="none" class=`w-full rounded-lg border outline-none px-3 py-2 ${errors && errors.name ? 'border-red-600' : 'border-gray-300'}`)
+          if errors && errors.name
+            div(class="text-red-600")
+              small= errors.name.msg
+          
+        div
+          label(for="email" class="block text-sm font-bold uppercase mb-2 text-gray-500") Correo
+          input(type="email" id="email" name="email" value= user ? user.email : '' autocomplete="none" class=`w-full rounded-lg border outline-none px-3 py-2 ${errors && errors.email ? 'border-red-600' : 'border-gray-300'}`)
+
+          if errors && errors.email
+            div(class="text-red-600")
+              small= errors.email.msg
+          
+        div
+          label(for="password" class="block text-sm font-bold uppercase mb-2 text-gray-500") Contraseña
+          input(type="password" id="password" name="password" autocomplete="new-password" class=`w-full rounded-lg border outline-none px-3 py-2 ${errors && errors.password ? 'border-red-600' : 'border-gray-300'}`)
+
+          if errors && errors.password
+            div(class="text-red-600") 
+              small= errors.password.msg
+          
+        div
+          label(for="confirmPassword" class="block text-sm font-bold uppercase mb-2 text-gray-500") Confirmar Contraseña
+          input(type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" class=`w-full rounded-lg border outline-none px-3 py-2 ${errors && errors.confirmPassword ? 'border-red-600' : 'border-gray-300'}`)
+          
+          if errors && errors.confirmPassword
+            div(class="text-red-600") 
+              small= errors.confirmPassword.msg
+
+        button(type="submit" class="w-full font-bold uppercase rounded-lg px-3 py-4 transition-colors bg-sky-600 text-white hover:bg-sky-700 ") Crear cuenta
+
+        p(class="text-center text-sm") ¿Ya tienes cuenta? 
+          a(href="/auth/login" class="text-sky-600") Inicia sesión

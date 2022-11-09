@@ -1,0 +1,7 @@
+mixin pagerMobile(number, currentPage)
+  div(class="flex items-center justify-end mt-4 sm:hidden")
+    a(href=`/my-properties?page=${currentPage - 1}`  class=`text-sm font-medium border relative rounded-lg px-4 py-2 bg-white border-gray-300 text-gray-500 hover:bg-gray-50 ${currentPage == 1 && 'pointer-events-none opacity-70'}`) <
+
+    span(class="text-sm font-medium relative px-4 py-2")= currentPage
+    
+    a(href=`/my-properties?page=${+currentPage + 1}` class=`text-sm font-medium border relative rounded-lg px-4 py-2 bg-white border-gray-300 text-gray-500 hover:bg-gray-50 ${currentPage >= number && 'pointer-events-none'}`) >  

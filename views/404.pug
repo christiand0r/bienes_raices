@@ -1,0 +1,14 @@
+extends ../layouts/app
+
+
+block styles
+
+
+block content
+  div(class="flex flex-col items-center justify-center p-10")
+      div(class="flex flex-col items-center")
+        h2(class="text-[12rem] text-center font-black leading-none text-slate-800") 404
+        p(class="text-center text-2xl font-medium")
+          span(class="text-slate-500") Error: 
+          span(class="text-slate-500") #{page}. 
+          a(href="/" class="text-sky-600") Ir a inicio 

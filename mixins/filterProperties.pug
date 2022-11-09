@@ -1,0 +1,12 @@
+mixin filterProperties(categories)
+  div(class="flex flex-col items-center justify-center gap-4 p-4 md:flex-row bg-zinc-100")
+    p(class="text-sm font-bold uppercase text-slate-800") Filtrar propiedades:
+
+    div(class="flex items-center gap-2 w-full md:max-w-sm")
+      select(id="categories" class="rounded-lg shadow outline-none border px-3 py-2 w-full border-gray-300 bg-white") 
+        option(value="" disabled hidden selected) Selecciona una categoría
+        each category in categories
+          option(value=category.id)= category.name
+      
+    div(class="flex items-center gap-2 w-full md:max-w-sm")
+      input(id="price" type="number" placeholder="Indica un precio" class="rounded-lg shadow outline-none border px-3 py-2 w-full border-gray-300 bg-white")

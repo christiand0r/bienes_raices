@@ -1,0 +1,16 @@
+extends ../../layouts/authentication
+
+block content
+  div(class="flex flex-col items-center justify-center min-h-screen")
+    h1(class="text-center text-4xl font-extrabold") Bienes
+      span(class="font-normal") Raíces
+
+    h2(class="text-center text-xl font-medium my-6 bg-gree")= page
+
+    div(class=`max-w-lg w-full rounded-lg p-8 shadow ${ success ? 'bg-green-100' : 'bg-red-100'}`)
+      h3(class=`text-center text-xl ${ success ? 'text-green-900' : 'text-red-900'}`)= title
+
+      p(class=`text-center mt-4 ${ success ? 'text-green-900' : 'text-red-900'}`)!= text
+
+    if success 
+      a(href="/auth/login" class="block text-center text-sm mt-6") Iniciar sesión 

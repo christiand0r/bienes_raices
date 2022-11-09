@@ -1,0 +1,14 @@
+mixin pager(number, extra, limit, offset, currentPage, totalProperties)
+  
+  div(class="hidden sm:flex items-center justify-between mt-4")
+  
+    div(class=`${extra ? 'sm:flex' : 'hidden'} sm:items-center sm:justify-between sm:flex-1`)
+      p(class="text-sm text-slate-800") Mostrando 
+        span(class="font-medium") #{offset + 1} a 
+        span(class="font-medium") #{totalProperties < limit + offset ? totalProperties : limit + offset} de 
+        span(class="font-medium") #{totalProperties} resultados
+
+    div(class="flex items-center justify-between ")
+      nav(class="flex relative z-0")
+        - for (var n = 1; n <= number; n++)
+          a(href=`/my-properties?page=${n}` class=`inline-flex items-center text-sm font-medium border relative px-4 py-2 transition-colors ${n === 1 &&'rounded-tl-lg rounded-bl-lg'} ${n === number &&'rounded-tr-lg rounded-br-lg'} ${n == currentPage ? 'bg-sky-50 border-sky-500 text-sky-600 hover:bg-sky-50 hover:border-sky-500 hover:text-sky-600' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'}` )= n

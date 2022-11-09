@@ -1,0 +1,100 @@
+extends ../../layouts/dashboard
+
+
+block styles
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
+
+
+block content
+  h1(class="text-center text-2xl font-bold mb-10")= page
+  div(class="px-4 py-8 mx-auto shadow-md max-w-3xl bg-white md:px-10")
+    form(class="flex flex-col gap-4 w-full" method="POST")
+      input(type="hidden" name="_csrf" value=csrfToken)
+
+      fieldset(class="flex flex-col gap-4") 
+        legend(class="text-lg font-medium text-gray-900") Información General
+        small(class="text-sm text-gray-400") Añade información sobre la propiedad en venta
+
+        div
+          label(for="title" class="block text-sm font-bold uppercase mb-2 text-gray-500") Titulo de Anuncio
+          input(type="text" id="title" name="title" placeholder="Ej. Casa en la playa" autocomplete="none" value= post ? post.title : "" class=`w-full rounded-lg border outline-none px-3 py-2  ${errors && errors.title ? 'border-red-600' : 'border-gray-300'}`)
+          if errors && errors.title
+            div(class="text-red-600")
+              small= errors.title.msg
+      
+        div(class="flex flex-col gap-4 md:flex-row")
+          div(class="md:w-1/2")
+            label(for="category" class="block text-sm font-bold uppercase mb-2 text-gray-500") Categoría
+            select(id="category" name="category"  class=`group w-full rounded-lg border outline-none px-3 py-2 invalid:text-gray-400  ${errors && errors.category ? 'border-red-600' : 'border-gray-300'}`)
+              option(value="" selected disabled hidden) Seleccione una categoría 
+              each category in categories
+                option(value=category.id selected= post ? post.categoryId == category.id : null)=category.name 
+            if errors && errors.category
+              div(class="text-red-600")
+                small= errors.category.msg
+
+          div(class="md:w-1/2")
+            label(for="price" class="block text-sm font-bold uppercase mb-2 text-gray-500") Precio
+            input(type="number" id="price" name="price" placeholder="Indique un monto" autocomplete="none" step="0.01" min="0" value= post ? post.price : "" class=`w-full rounded-lg border outline-none px-3 py-2  ${errors && errors.price ? 'border-red-600' : 'border-gray-300'}`)
+            if errors && errors.price
+              div(class="text-red-600")
+                small= errors.price.msg
+
+        div(class="flex flex-col gap-4 md:flex-row")
+          div(class="md:w-1/3")
+            label(for="rooms" class="block text-sm font-bold uppercase mb-2 text-gray-500") Nro. Habitaciones
+            input(type="number" id="rooms" name="rooms" placeholder="1" autocomplete="none" min="" value= post ? post.rooms : "" class=`w-full rounded-lg border outline-none px-3 py-2  ${errors && errors.rooms ? 'border-red-600' : 'border-gray-300'}`)
+            if errors && errors.rooms
+              div(class="text-red-600")
+                small= errors.rooms.msg
+          
+          div(class="md:w-1/3")
+            label(for="bathrooms" class="block text-sm font-bold uppercase mb-2 text-gray-500") Nro. Baños
+            input(type="number" id="bathrooms" name="bathrooms" placeholder="1" autocomplete="none" min="0" value= post ? post.bathrooms : "" class=`w-full rounded-lg border outline-none px-3 py-2  ${errors && errors.bathrooms ? 'border-red-600' : 'border-gray-300'}`)
+            if errors && errors.bathrooms
+              div(class="text-red-600")
+                small= errors.bathrooms.msg
+
+          div(class="md:w-1/3")
+            label(for="parkings" class="block text-sm font-bold uppercase mb-2 text-gray-500") Nro. Estacionamientos
+            input(type="number" id="parkings" name="parkings" placeholder="1" autocomplete="none" min="0" value= post ? post.parkings : "" class=`w-full rounded-lg border outline-none px-3 py-2  ${errors && errors.parkings ? 'border-red-600' : 'border-gray-300'}`)
+            if errors && errors.parkings
+              div(class="text-red-600")
+                small= errors.parkings.msg
+
+        div
+          label(for="description" class="block text-sm font-bold uppercase mb-2 text-gray-500") Descripción de la propiedad
+          textarea(id="description" name="description" placeholder="Ej. Hermosa casa ubicada en un conjunto residencial privado, que cuenta con..." autocomplete="none" class=`w-full h-48 resize-none rounded-lg border outline-none px-3 py-2  ${errors && errors.description ? 'border-red-600' : 'border-gray-300'}`)= post ? post.description : ""
+          if errors && errors.description
+            div(class="text-red-600")
+              small= errors.description.msg
+
+      hr(class="block my-2")
+
+      fieldset(class="flex flex-col gap-4")
+        legend(class="text-lg font-medium text-gray-900") Ubicación 
+        small(class="text-sm text-gray-400") Añade la ubicación de la propiedad en venta
+
+        div(id="property-location" class="flex flex-col gap-4 h-96 md:flex-row")
+
+        div
+          label(for="location" class="block text-sm font-bold uppercase mb-2 text-gray-500") Dirección de la propiedad
+          input(type="text" id="address" name="address" placeholder="Utiliza el mapa para cambiar la ubicación..." autocomplete="none" readonly value= post ? post.address : "" class=`w-full rounded-lg border outline-none px-3 py-2 bg-gray-50 text-gray-500 ${errors && errors.address ? 'border-red-600' : 'border-gray-300'}`)
+          if errors && errors.address
+            div(class="text-red-600")
+              small= errors.address.msg
+          
+          input(type="hidden" name="street" id="street" value= post ? post.street : "")
+          input(type="hidden" name="latitude" id="latitude" value= post ? post.latitude : "")
+          input(type="hidden" name="longitude" id="longitude" value= post ? post.longitude : "")
+        
+      
+      div(class="w-full")
+        button(type="submit" class="font-bold uppercase rounded-lg px-3 py-4 w-full transition-colors bg-sky-600 text-white hover:bg-sky-700 ") Guardar cambios
+
+block scripts
+  script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
+  script(src="https://unpkg.com/esri-leaflet@3.0.8/dist/esri-leaflet.js")
+  script(src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geosearch/2.7.0/bundle.min.js")
+  script(src="/js/map.js") 

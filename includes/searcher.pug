@@ -1,0 +1,4 @@
+form(id="searcher" action="/search" method="POST" data-status="close" class="flex overflow-hidden transition-dimension h-0")
+    input(type="hidden" name="_csrf" value=csrfToken)
+    input(type="text" id="term" name="term" placeholder="Buscador de propiedades" class="outline-none p-4 w-full")
+    button(type="submit" class="text-sm font-bold uppercase px-6 py-2 bg-sky-900 text-white") Buscar

@@ -1,0 +1,28 @@
+extends ../layouts/app
+include ../mixins/filterProperties
+
+
+block styles
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
+
+block content
+  div(id="homeMap" class="h-[38rem] w-full")
+  +filterProperties(categories)
+
+  section(class="p-5")
+    h2(class="text-center text-4xl font-extrabold") Casas en venta
+
+    div(class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-4")
+      each property in houses
+        include ../includes/property-card
+
+  section(class="p-5")
+    h2(class="text-center text-4xl font-extrabold") Departamentos en venta
+
+    div(class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-4")
+      each property in apartments
+        include ../includes/property-card
+
+block scripts
+  script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
+  script(src="/js/homeMap.js") 
